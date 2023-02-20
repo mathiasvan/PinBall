@@ -1,6 +1,7 @@
 import pygame
 import sys
 from display import Display
+from ball import Ball
 
 # *** GLOBAL CONSTANTS ***
 WHITE = (255, 255, 255)
@@ -25,14 +26,21 @@ from pygame.locals import (
 pygame.init()
 
 # Set the width and height relative to the user screen so that it always fits
-dis = Display(3, 1.1) # ratioWidth, ratioHeight
-win = dis.create_display() # Create the display
+dis = Display(3, 1.1) # ratioWidth, ratioHeight -> 
+# width = 1/3 of the total screen width of the user
+# height = a bit less than the full height of the user screen
+screen = dis.create_display() # Create the display
 
 # Title of display
 pygame.display.set_caption("PinBall")
 
 # Clock
 clock = pygame.time.Clock()
+
+# Ball
+# ball = Ball(dis.w, [100, 200], [3, -6])
+ball_group = pygame.sprite.Group()
+# ball_group.add(ball)
 
 # Game loop
 while True:
@@ -49,9 +57,20 @@ while True:
                 pygame.quit()
                 sys.exit()
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            ball_group.add(Ball(dis.w, pygame.mouse.get_pos(), [0, -9]))
+    
+    ball_group.update(dis.w, dis.h)
+    # If ball moved off the screen
+    for b in ball_group:
+        if b.offScreen == True:
+            b.remove(ball_group) # Remove the ball from the screen
+
+
     # *** All the drawing stuff comes here ***
     # Background
-    win.fill(WHITE) # TODO: Add a draw function to the Display class
+    screen.fill(WHITE) # TODO: Add a draw function to the Display class
+    ball_group.draw(screen)
 
     # Update screen
     pygame.display.flip()
