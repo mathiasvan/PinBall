@@ -19,6 +19,7 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
+    MOUSEBUTTONDOWN,
     QUIT,
 )
 
@@ -38,7 +39,7 @@ pygame.display.set_caption("PinBall")
 clock = pygame.time.Clock()
 
 # Ball
-# ball = Ball(dis.w, [100, 200], [3, -6])
+# ball = Ball(dis.w, dis.h, [100, 200], [3, -6])
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
@@ -57,9 +58,10 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, pygame.mouse.get_pos(), [0, -9]))
+        if event.type == MOUSEBUTTONDOWN:
+            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, -9]))
     
+    # *** Updates ***
     ball_group.update(dis.w, dis.h)
     # If ball moved off the screen
     for b in ball_group:
