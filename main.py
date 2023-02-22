@@ -44,7 +44,9 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
-Wall(dis.w, dis.h, screen)
+wall = Wall(dis.w, dis.h, screen)
+wall_group = pygame.sprite.Group()
+wall_group.add(wall)
 
 # Game loop
 while True:
@@ -76,6 +78,7 @@ while True:
     # Background
     screen.fill(WHITE) # TODO: Add a draw function to the Display class
     ball_group.draw(screen)
+    wall_group.draw(screen)
 
     # Update screen
     pygame.display.flip()
