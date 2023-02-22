@@ -17,7 +17,7 @@ This project is a pinball machine. Try not to lose all of your balls and get the
 
 This project was a collaboration between [Mathias Van Nuland](https://github.com/mathiasvan), [Yerome Yu](https://github.com/jerome666888) and [Barry Shen](https://github.com/BarryTheShen)
 
-# Dates
+## Dates
 
 The project was started in February, 2023.
 It was finished on ???
