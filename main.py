@@ -2,6 +2,7 @@ import pygame
 import sys
 from display import Display
 from ball import Ball
+from obstacle import Wall
 
 # *** GLOBAL CONSTANTS ***
 WHITE = (255, 255, 255)
@@ -42,6 +43,8 @@ clock = pygame.time.Clock()
 # ball = Ball(dis.w, dis.h, [100, 200], [3, -6])
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
+
+Wall(dis.w, dis.h, screen)
 
 # Game loop
 while True:
