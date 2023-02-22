@@ -13,9 +13,13 @@ This project is a pinball machine. Try not to lose all of your balls and get the
 1. Double click on `main.py`.
 1. Enjoy!
 
-
 ## Collaboration
 
 This project was a collaboration between [Mathias Van Nuland](https://github.com/mathiasvan), [Yerome Yu](https://github.com/jerome666888) and [Barry Shen](https://github.com/BarryTheShen)
 
-It was started in February, 2023.
+# Dates
+
+The project was started in February, 2023.
+It was finished on ???
+
+V1 was released on ???
