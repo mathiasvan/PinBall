@@ -12,11 +12,16 @@ class Ball(pygame.sprite.Sprite):
             base = screen_height
         ratio = 15
         self.image = pygame.transform.scale(self.image, (base/ratio, base/ratio))
+        # self.image = pygame.Surface([base/ratio, base/ratio])
+        # self.image.fill((255, 255, 255))
+        # self.image.set_colorkey((255, 255, 255))
+        # pygame.draw.circle(self.image, (0, 0, 0), (base/ratio/2, base/ratio/2), base/ratio/2)
 
         self.rect = self.image.get_rect()
-        self.rect.center = pos
+        self.rect.center = pos # TODO: also make the position dynamic
         self.velocity = startVelocity
         self.offScreen = False
+        self.radius = base/ratio/2
 
     def update(self, screen_width, screen_height):
         # TODO: create gravity variable
@@ -29,3 +34,9 @@ class Ball(pygame.sprite.Sprite):
             self.offScreen = True
         else:
             self.offScreen = False
+
+    def resolve_collision(self, collision_type=None):
+        if collision_type == "obstacle":
+            self.image.fill((255, 0, 0))
+        else:
+            self.image.fill((0, 0, 255))

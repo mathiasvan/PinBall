@@ -2,6 +2,7 @@ import pygame
 import sys
 from display import Display
 from ball import Ball
+from obstacle import Obstacle
 
 # *** GLOBAL CONSTANTS ***
 WHITE = (255, 255, 255)
@@ -43,6 +44,11 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
+# Obstacle
+obstacle_group = pygame.sprite.Group()
+obstacle_group.add(Obstacle(dis.w, dis.h, [60, 200], 1))
+obstacle_group.add(Obstacle(dis.w, dis.h, [120, 240], 1))
+
 # Game loop
 while True:
     # *** All events happen here (mousemovement, keyboardinput, etc) ***
@@ -67,13 +73,17 @@ while True:
     for b in ball_group:
         if b.offScreen == True:
             b.remove(ball_group) # Remove the ball from the screen
-
+    
+    ball_obs_collisions = pygame.sprite.groupcollide(ball_group, obstacle_group, False, False, pygame.sprite.collide_circle)
+    for b in ball_obs_collisions:
+        b.resolve_collision("obstacle")
 
     # *** All the drawing stuff comes here ***
     # Background
     screen.fill(WHITE) # TODO: Add a draw function to the Display class
+    obstacle_group.draw(screen)
     ball_group.draw(screen)
-
+    
     # Update screen
     pygame.display.flip()
     clock.tick(60) # 60fps
