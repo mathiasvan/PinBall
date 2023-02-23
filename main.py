@@ -2,7 +2,7 @@ import pygame
 import sys
 from display import Display
 from ball import Ball
-from obstacle import Wall
+from wall import Wall
 
 # *** GLOBAL CONSTANTS ***
 WHITE = (255, 255, 255)
@@ -44,7 +44,7 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
-wall = Wall(dis.w, dis.h, screen)
+wall = Wall(30,50,45,[90,90])
 wall_group = pygame.sprite.Group()
 wall_group.add(wall)
 
@@ -64,10 +64,19 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, -9]))
+            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [3, -11]))
     
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
+
+    # Check for collisions between the ball and the wall
+    for ball in ball_group:
+        for wall in wall_group:
+            if pygame.sprite.collide_rect(ball, wall):
+                wall.collision(ball.velocity, ball.angle)
+                # Adjust the ball's velocity based on the new velocity returned by the wall's collision method
+                ball.velocity = wall.collision(ball.velocity, ball.angle)
+
     # If ball moved off the screen
     for b in ball_group:
         if b.offScreen == True:
