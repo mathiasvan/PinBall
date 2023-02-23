@@ -13,8 +13,7 @@ class Ball(pygame.sprite.Sprite):
         ratio = 15
         self.image = pygame.transform.scale(self.image, (base/ratio, base/ratio))
 
-        self.rect = self.image.get_rect()
-        self.rect.center = pos
+        self.rect = self.image.get_rect(center = pos)
         self.velocity = startVelocity
         self.offScreen = False
 
