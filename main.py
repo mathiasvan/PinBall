@@ -4,6 +4,8 @@ from display import Display
 from ball import Ball
 from obstacle import Obstacle
 
+import time
+
 # *** GLOBAL CONSTANTS ***
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -46,8 +48,8 @@ ball_group = pygame.sprite.Group()
 
 # Obstacle
 obstacle_group = pygame.sprite.Group()
-obstacle_group.add(Obstacle(dis.w, dis.h, [60, 200], 1))
-obstacle_group.add(Obstacle(dis.w, dis.h, [120, 240], 1))
+obstacle_group.add(Obstacle(dis.w, dis.h, [dis.w/2, dis.h/2], 1))
+
 
 # Game loop
 while True:
@@ -65,7 +67,7 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, -9]))
+            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [-3, -2]))
     
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
@@ -74,9 +76,12 @@ while True:
         if b.offScreen == True:
             b.remove(ball_group) # Remove the ball from the screen
     
+    # print("before collisions")
     ball_obs_collisions = pygame.sprite.groupcollide(ball_group, obstacle_group, False, False, pygame.sprite.collide_circle)
     for b in ball_obs_collisions:
-        b.resolve_collision("obstacle")
+        # for i, c in enumerate(ball_obs_collisions[b]):
+        # ball_obs_collisions[b][0]
+        b.resolve_collision(ball_obs_collisions[b][0])
 
     # *** All the drawing stuff comes here ***
     # Background

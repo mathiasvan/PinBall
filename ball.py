@@ -1,4 +1,5 @@
 import pygame
+from math import sqrt, cos, sin, atan2, degrees
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self, screen_width, screen_height, pos=[0, 0], startVelocity=[0, 0]):
@@ -25,8 +26,8 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self, screen_width, screen_height):
         # TODO: create gravity variable
-        self.velocity = [self.velocity[0], self.velocity[1] + 0.1]
-        self.rect.move_ip(self.velocity)
+        self.velocity = [self.velocity[0], self.velocity[1]]
+        self.move()
 
         if self.rect.right < 0 or self.rect.left > screen_width:
             self.offScreen = True
@@ -35,8 +36,27 @@ class Ball(pygame.sprite.Sprite):
         else:
             self.offScreen = False
 
-    def resolve_collision(self, collision_type=None):
-        if collision_type == "obstacle":
-            self.image.fill((255, 0, 0))
-        else:
-            self.image.fill((0, 0, 255))
+    def move(self):
+        self.rect.move_ip(self.velocity)
+
+    def resolve_collision(self, collision_object):
+        
+        v = sqrt(pow(self.velocity[0], 2) + pow(self.velocity[1], 2))
+        if collision_object.__class__.__name__ == "Obstacle":
+            d = atan2(self.velocity[1], -self.velocity[0])
+            b = atan2(collision_object.rect.centerx - self.rect.centerx, collision_object.rect.centery - self.rect.centery)
+            a = d - b
+
+            print(degrees(a), degrees(b), degrees(d))
+
+            # Move out of the ball
+            self.rect.move_ip(-(self.velocity[0]), -(self.velocity[1]))
+            # Calculate new velocity
+            self.velocity[0] = -v * cos(a-b)
+            self.velocity[1] = -v * sin(a-b)
+
+            self.move()
+
+            
+
+            
