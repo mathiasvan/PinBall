@@ -25,3 +25,6 @@ class Wall(pygame.sprite.Sprite):
 
         # Update the ball's velocity
         return new_velocity
+
+    #def collision_detection(self, ball_group):
+    
