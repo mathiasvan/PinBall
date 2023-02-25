@@ -44,9 +44,9 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
-wall = Wall(40,230,0,[390,30])
+test_wall = Wall(40,230,0,[450,650])
 wall_group = pygame.sprite.Group()
-wall_group.add(wall)
+wall_group.add(test_wall)
 
 # Game loop
 while True:
@@ -70,9 +70,9 @@ while True:
     ball_group.update(dis.w, dis.h)
 
     # Check for collisions between the ball and the wall
-    for ball in ball_group:
-        for wall in wall_group:
-            if pygame.sprite.collide_rect(ball, wall):
+    if pygame.sprite.groupcollide(ball_group, wall_group, False, False, collided = None):
+        for ball in ball_group:
+            for wall in wall_group:
                 # Adjust the ball's velocity based on the new velocity returned by the wall's collision method
                 ball.velocity = wall.collision(ball)
 
