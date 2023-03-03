@@ -1,7 +1,16 @@
 import pygame
 
 class Obstacle(pygame.sprite.Sprite):
-    def __init__(self, screen_width, screen_height, pos, diameter):
+    def __init__(self, screen_width, screen_height, pos, diameter, friction):
+        """Initialise the Obstacle class
+
+        Args:
+            screen_width (Int): the width of the pygame window
+            screen_height (Int): the height of the pygame window
+            pos (List): x and y coordinates of the obstacle
+            diameter (Int): diameter of the obstacle, relative to the ball: 1 is the same diameter as the ball
+            friction (Float): number between 1 and 0. The velocity will not be changed if friction is 1. If friction is 0, all the kinetic energy of the ball will be lost.
+        """
         super().__init__()
 
         # Scale the obstacle according to the width and height of the screen
@@ -19,3 +28,5 @@ class Obstacle(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = pos # TODO: Also make this dynamic
+
+        self.friction = friction

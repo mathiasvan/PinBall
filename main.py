@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 from display import Display
 from ball import Ball
 from obstacle import Obstacle
@@ -42,14 +43,16 @@ pygame.display.set_caption("PinBall")
 clock = pygame.time.Clock()
 
 # Ball
-# ball = Ball(dis.w, dis.h, [100, 200], [3, -6])
 ball_group = pygame.sprite.Group()
+# ball = Ball(dis.w, dis.h, [100, 200], [3, -6])
 # ball_group.add(ball)
 
 # Obstacle
 obstacle_group = pygame.sprite.Group()
-obstacle_group.add(Obstacle(dis.w, dis.h, [dis.w/2, dis.h/2], 1))
 
+for i in range(15):
+    obstacle_group.add(Obstacle(dis.w, dis.h, [random.randint(0, dis.w), random.randint(0, dis.h)], (random.random()*3+0.5)+0.5, random.random()+0.5))
+    
 
 # Game loop
 while True:
@@ -67,7 +70,7 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [-3, -2]))
+            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, 0]))
     
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
@@ -76,12 +79,18 @@ while True:
         if b.offScreen == True:
             b.remove(ball_group) # Remove the ball from the screen
     
-    # print("before collisions")
+    # Ball collisions with obstacles
     ball_obs_collisions = pygame.sprite.groupcollide(ball_group, obstacle_group, False, False, pygame.sprite.collide_circle)
     for b in ball_obs_collisions:
-        # for i, c in enumerate(ball_obs_collisions[b]):
-        # ball_obs_collisions[b][0]
         b.resolve_collision(ball_obs_collisions[b][0])
+    
+    # TODO: Ball collisions with other balls
+    # Some starter code but not yet finished:
+    # balls = pygame.sprite.Group.sprites(ball_group)
+    # for i, ball1 in enumerate(balls):
+    #     for ball2 in balls[i+1:]:
+    #         if(pygame.sprite.collide_circle(ball1, ball2)):
+    #             ball1.resolve_collision(ball2)
 
     # *** All the drawing stuff comes here ***
     # Background

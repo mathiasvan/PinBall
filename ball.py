@@ -26,7 +26,7 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self, screen_width, screen_height):
         # TODO: create gravity variable
-        self.velocity = [self.velocity[0], self.velocity[1]]
+        self.velocity = [self.velocity[0], self.velocity[1] + 0.3]
         self.move()
 
         if self.rect.right < 0 or self.rect.left > screen_width:
@@ -41,22 +41,24 @@ class Ball(pygame.sprite.Sprite):
 
     def resolve_collision(self, collision_object):
         
+        # Get the velocity vector
         v = sqrt(pow(self.velocity[0], 2) + pow(self.velocity[1], 2))
+        
+        # Get the angle between v and the x-axis
+        d = atan2(self.velocity[1], -self.velocity[0])
+        
+        # Get the angle of the rotation of the collision surface, relative to the x-axis
         if collision_object.__class__.__name__ == "Obstacle":
-            d = atan2(self.velocity[1], -self.velocity[0])
             b = atan2(collision_object.rect.centerx - self.rect.centerx, collision_object.rect.centery - self.rect.centery)
-            a = d - b
+        
+        # Get the angle of collision relative to the collision surface
+        a = d - b
 
-            print(degrees(a), degrees(b), degrees(d))
+        # print(degrees(a), degrees(b), degrees(d))
 
-            # Move out of the ball
-            self.rect.move_ip(-(self.velocity[0]), -(self.velocity[1]))
-            # Calculate new velocity
-            self.velocity[0] = -v * cos(a-b)
-            self.velocity[1] = -v * sin(a-b)
-
-            self.move()
-
-            
-
-            
+        # Move out of the ball
+        self.rect.move_ip(-(self.velocity[0]), -(self.velocity[1]))
+        
+        # Calculate new velocity with the calculated angles
+        self.velocity[0] = -v * cos(a-b) * collision_object.friction
+        self.velocity[1] = -v * sin(a-b) * collision_object.friction
