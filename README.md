@@ -1,5 +1,7 @@
 # PinBall
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
 ## Overview of the project
 
 This project is a pinball machine. Try not to lose all of your balls and get the most points!
