@@ -2,9 +2,11 @@ import pygame
 from math import sqrt, cos, sin, atan2, degrees
 
 class Ball(pygame.sprite.Sprite):
+    image_preload = pygame.image.load("basket_ball.png")
+
     def __init__(self, screen_width, screen_height, pos=[0, 0], startVelocity=[0, 0]):
         super().__init__()
-        self.image = pygame.image.load("basket_ball.png")
+        self.image = self.image_preload
 
         # Scale the ball according to the width and height of the screen
         if screen_width < screen_height:
