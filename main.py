@@ -106,5 +106,12 @@ while True:
     ball_group.draw(screen)
     
     # Update screen
-    pygame.display.flip()
     clock.tick(60) # 60fps
+
+    # Calculate the current frame rate (in FPS)
+    fps = clock.get_fps()
+
+    # Set the window caption to show the frame rate
+    pygame.display.set_caption(f"Pinball: Frame rate: {fps:.2f} FPS")
+
+    pygame.display.flip()
