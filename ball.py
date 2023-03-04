@@ -62,3 +62,6 @@ class Ball(pygame.sprite.Sprite):
         # Calculate new velocity with the calculated angles
         self.velocity[0] = -v * cos(a-b) * collision_object.friction
         self.velocity[1] = -v * sin(a-b) * collision_object.friction
+
+        while pygame.sprite.collide_circle(self, collision_object):
+            self.move()

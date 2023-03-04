@@ -70,7 +70,14 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, 0]))
+            err = False
+            temp_ball = Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, 0])
+            for o in obstacle_group.sprites():
+                if pygame.sprite.collide_circle(temp_ball, o):
+                    err = True
+                    break
+            if not err:    
+                ball_group.add(temp_ball)
     
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
