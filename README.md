@@ -1,6 +1,6 @@
 # PinBall
 
-![Python](https://img.shields.io/badge/pycharm-336d9d?style=for-the-badge&logo=pycharm&logoColor=ffdb4f)
+![Pycharm](https://img.shields.io/badge/pycharm-336d9d?style=for-the-badge&logo=pycharm&logoColor=ffdb4f)
 
 ## Overview of the project
 
