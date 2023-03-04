@@ -111,7 +111,10 @@ while True:
     # Calculate the current frame rate (in FPS)
     fps = clock.get_fps()
 
+    # Calculate the number of objects on the screen
+    object_count = len(ball_group.sprites()) + len(obstacle_group.sprites())
+
     # Set the window caption to show the frame rate
-    pygame.display.set_caption(f"Pinball: Frame rate: {fps:.2f} FPS")
+    pygame.display.set_caption(f"Pinball: Frame rate: {fps:.2f} FPS | Objects: {object_count}")
 
     pygame.display.flip()
