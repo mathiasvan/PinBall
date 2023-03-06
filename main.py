@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 from display import Display
 from ball import Ball
 from wall import Wall
@@ -44,7 +45,7 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
-test_wall = Wall(40,230,0,[450,650])
+test_wall = Wall(420,30,60,[450,450])
 wall_group = pygame.sprite.Group()
 wall_group.add(test_wall)
 
@@ -69,12 +70,8 @@ while True:
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
 
-    # Check for collisions between the ball and the wall
-    if pygame.sprite.groupcollide(ball_group, wall_group, False, False, collided = None):
-        for ball in ball_group:
-            for wall in wall_group:
-                # Adjust the ball's velocity based on the new velocity returned by the wall's collision method
-                ball.velocity = wall.collision(ball)
+    # check for collision between balls and walls
+    test_wall.collision_detection(ball_group)
 
     # If ball moved off the screen
     for b in ball_group:
