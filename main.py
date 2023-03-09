@@ -97,10 +97,11 @@ while True:
     
     # Ball collisions with other balls
     balls = pygame.sprite.Group.sprites(ball_group)
-    for i, ball1 in enumerate(balls):
-        for ball2 in balls[i+1:]:
-            if(pygame.sprite.collide_circle(ball1, ball2)):
+    for i, ball1 in enumerate(balls): # Loop over every ball
+        for ball2 in balls[i+1:]: # Loop over every ball, except the current ball and the once that went before
+            if(pygame.sprite.collide_circle(ball1, ball2)): # Check for collision between the two balls
                 temp = ball1 # Temporary ball so that the second ball update is done with the begin state of the first ball before the update
+                # Resolve the collision
                 ball1.resolve_collision(ball2)
                 ball2.resolve_collision(temp)
 
