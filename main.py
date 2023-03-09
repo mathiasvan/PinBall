@@ -31,10 +31,12 @@ from pygame.locals import (
 pygame.init()
 
 # Set the width and height relative to the user screen so that it always fits
-dis = Display(3, 1.1) # ratioWidth, ratioHeight -> 
+dis = Display(3, 1.1, (255, 255, 255)) # ratioWidth, ratioHeight -> 
 # width = 1/3 of the total screen width of the user
 # height = a bit less than the full height of the user screen
+
 screen = dis.create_display() # Create the display
+# Set the background color
 
 # Title of display
 pygame.display.set_caption("PinBall")
@@ -107,7 +109,7 @@ while True:
 
     # *** All the drawing stuff comes here ***
     # Background
-    screen.fill(WHITE) # TODO: Add a draw function to the Display class
+    dis.draw_display(screen)
     obstacle_group.draw(screen)
     ball_group.draw(screen)
     
