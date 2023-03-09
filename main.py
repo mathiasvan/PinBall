@@ -31,7 +31,7 @@ from pygame.locals import (
 pygame.init()
 
 # Set the width and height relative to the user screen so that it always fits
-dis = Display(3, 1.1, (255, 255, 255)) # ratioWidth, ratioHeight -> 
+dis = Display(3, 1.1, WHITE) # ratioWidth, ratioHeight -> 
 # width = 1/3 of the total screen width of the user
 # height = a bit less than the full height of the user screen
 
