@@ -30,6 +30,7 @@ class Ball(pygame.sprite.Sprite):
         self.velocity = startVelocity
         self.offScreen = False # The obstacle will be removed from the screen if it is not on it anymore
         self.radius = base/ratio/2 # Dynamically calculate the radius of the obstacle
+        self.friction = 1
 
     def update(self, screen_width, screen_height):
         """Moves the ball based on it's velocity and gravity. Sets the variable offScreen to True if the ball is off the screen.
@@ -57,6 +58,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.move_ip(self.velocity)
 
     def resolve_collision(self, collision_object):
+        collision_object_name = collision_object.__class__.__name__
         
         # Get the velocity vector
         v = sqrt(pow(self.velocity[0], 2) + pow(self.velocity[1], 2))
@@ -65,7 +67,7 @@ class Ball(pygame.sprite.Sprite):
         d = atan2(self.velocity[1], -self.velocity[0])
         
         # Get the angle of the rotation of the collision surface, relative to the x-axis
-        if collision_object.__class__.__name__ == "Obstacle":
+        if collision_object_name == "Obstacle" or collision_object_name == "Ball":
             b = atan2(collision_object.rect.centerx - self.rect.centerx, collision_object.rect.centery - self.rect.centery)
         
         # Get the angle of collision relative to the collision surface

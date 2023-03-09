@@ -69,14 +69,18 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-        if event.type == MOUSEBUTTONDOWN:
+        if event.type == MOUSEBUTTONDOWN: # Testing purposes
             err = False
-            temp_ball = Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, 0])
-            for o in obstacle_group.sprites():
+            temp_ball = Ball(dis.w, dis.h, pygame.mouse.get_pos(), [0, 0]) # Create a temporary ball
+            for o in obstacle_group.sprites(): # If the tempball collides with the obstacle group
                 if pygame.sprite.collide_circle(temp_ball, o):
                     err = True
                     break
-            if not err:    
+            for b in ball_group: # If the temp_ball collides with the ball group
+                if pygame.sprite.collide_circle(temp_ball, b):
+                    err = True
+                    break
+            if not err: # Only add a new ball if it does not collide on spawning
                 ball_group.add(temp_ball)
     
     # *** Updates ***
@@ -91,13 +95,14 @@ while True:
     for b in ball_obs_collisions:
         b.resolve_collision(ball_obs_collisions[b][0])
     
-    # TODO: Ball collisions with other balls
-    # Some starter code but not yet finished:
-    # balls = pygame.sprite.Group.sprites(ball_group)
-    # for i, ball1 in enumerate(balls):
-    #     for ball2 in balls[i+1:]:
-    #         if(pygame.sprite.collide_circle(ball1, ball2)):
-    #             ball1.resolve_collision(ball2)
+    # Ball collisions with other balls
+    balls = pygame.sprite.Group.sprites(ball_group)
+    for i, ball1 in enumerate(balls):
+        for ball2 in balls[i+1:]:
+            if(pygame.sprite.collide_circle(ball1, ball2)):
+                temp = ball1 # Temporary ball so that the second ball update is done with the begin state of the first ball before the update
+                ball1.resolve_collision(ball2)
+                ball2.resolve_collision(temp)
 
     # *** All the drawing stuff comes here ***
     # Background
@@ -110,10 +115,8 @@ while True:
 
     # Calculate the current frame rate (in FPS)
     fps = clock.get_fps()
-
     # Calculate the number of objects on the screen
     object_count = len(ball_group.sprites()) + len(obstacle_group.sprites())
-
     # Set the window caption to show the frame rate
     pygame.display.set_caption(f"Pinball: Frame rate: {fps:.2f} FPS | Objects: {object_count}")
 
