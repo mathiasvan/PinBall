@@ -40,10 +40,18 @@ class Ball(pygame.sprite.Sprite):
     def move(self):
         self.rect.move_ip(self.velocity)
 
+
     def resolve_collision(self, collision_object):
-        
+
         v = sqrt(pow(self.velocity[0], 2) + pow(self.velocity[1], 2))
+
         if collision_object.__class__.__name__ == "Wall":
+            normal = pygame.math.Vector2(collision_object.side[1][0] - collision_object.side[0][0], collision_object.side[1][1] - collision_object.side[0][1]).normalize().rotate(90) # get a normalized vector that's perpendicular to the side of the wall
+            velocity = pygame.math.Vector2(self.velocity[0], self.velocity[1]) # a vector based on velocity of ball
+            dot_product = velocity.dot(normal) # dot product of velocity and normal
+            self.velocity = velocity - 2 * dot_product * normal # adjust the velocity by reflecting it across normal
+
+        if collision_object.__class__.__name__ == "Ball":
             d = atan2(self.velocity[1], -self.velocity[0])
             b = atan2(collision_object.rect.centerx - self.rect.centerx, collision_object.rect.centery - self.rect.centery)
             a = d - b
@@ -56,4 +64,4 @@ class Ball(pygame.sprite.Sprite):
             self.velocity[0] = -v * cos(a-b)
             self.velocity[1] = -v * sin(a-b)
 
-            self.move()
+        self.move()

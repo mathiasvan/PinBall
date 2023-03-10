@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+from random import randint
 from display import Display
 from ball import Ball
 from wall import Wall
@@ -45,12 +46,13 @@ clock = pygame.time.Clock()
 ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
-test_wall = Wall(420,30,60,[450,450])
+test_wall = Wall(420,30,240,[450,450])
 wall_group = pygame.sprite.Group()
 wall_group.add(test_wall)
 
 # Game loop
 while True:
+
     # *** All events happen here (mousemovement, keyboardinput, etc) ***
     for event in pygame.event.get():  # Get all events.
         if event.type == QUIT:  # If the red cross (top right) is pressed.
@@ -65,25 +67,36 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), [6, -11]))
+            for n in range(10):
+                #ball_group.add(Ball(dis.w, dis.h, (590,385), [-2,-0]))
+                velocity = [randint(-4,4), randint(-4,4)]
+                ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), velocity))
+                #ball_group.add(Ball(dis.w, dis.h, (590,385), velocity))
+                print(pygame.mouse.get_pos())
+                print(velocity)
     
     # *** Updates ***
     ball_group.update(dis.w, dis.h)
 
     # check for collision between balls and walls
-    test_wall.collision_detection(ball_group)
+    for ball in ball_group:
+        for wall in wall_group:
+            if wall.collision_detection(ball):
+                ball.resolve_collision(wall)
 
     # If ball moved off the screen
     for b in ball_group:
         if b.offScreen == True:
             b.remove(ball_group) # Remove the ball from the screen
 
-
     # *** All the drawing stuff comes here ***
     # Background
     screen.fill(WHITE) # TODO: Add a draw function to the Display class
     ball_group.draw(screen)
     wall_group.draw(screen)
+
+    for wall in wall_group:
+        wall.drawlines(screen, ball_group)
 
     # Update screen
     pygame.display.flip()
