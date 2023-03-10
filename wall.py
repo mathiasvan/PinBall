@@ -15,7 +15,7 @@ class Wall(pygame.sprite.Sprite):
         self.image = self.rotated_image
         self.rotated_vertices(width, height, angle, position)
 
-
+    # calculate the location of vertices after rotation
     def rotated_vertices(self, width, height, angle, position):
         # Get the coordinates of the four vertices of the rectangle before rotation
         x1, y1 = position[0] - width/2, position[1] - height/2
@@ -40,60 +40,9 @@ class Wall(pygame.sprite.Sprite):
         # 4 sides of the wall in endpoint coordinates
         self.sides = (((self.vertices[0]),(self.vertices[1])),((self.vertices[1]),(self.vertices[2])),((self.vertices[2]),(self.vertices[3])),((self.vertices[3]),(self.vertices[0])))
 
-
-    '''def drawlines(self,screen,balls): # draw whatever that helps with debugging, which for now it draws the line from center of ball to closest point on wall
-        for side in self.sides:
-            #pygame.draw.line(screen, (0,255,0), side[0], side[1], 4)
-            for ball in balls:
-                side_vector1 = pygame.math.Vector2(self.sides[0][1][0]-self.sides[0][0][0],self.sides[0][1][1]-self.sides[0][0][1])
-                side_vector2 = pygame.math.Vector2(self.sides[1][1][0]-self.sides[1][0][0],self.sides[1][1][1]-self.sides[1][0][1])
-                side_vector3 = pygame.math.Vector2(self.sides[2][1][0]-self.sides[2][0][0],self.sides[2][1][1]-self.sides[2][0][1])
-                side_vector4 = pygame.math.Vector2(self.sides[3][1][0]-self.sides[3][0][0],self.sides[3][1][1]-self.sides[3][0][1])
-                ball_to_end1 = [ball.rect.centerx-self.sides[0][0][0], ball.rect.centery-self.sides[0][0][1]]
-                ball_to_end2 = [ball.rect.centerx-self.sides[1][0][0], ball.rect.centery-self.sides[1][0][1]]
-                ball_to_end3 = [ball.rect.centerx-self.sides[2][0][0], ball.rect.centery-self.sides[2][0][1]]
-                ball_to_end4 = [ball.rect.centerx-self.sides[3][0][0], ball.rect.centery-self.sides[3][0][1]]
-                dot_product1 = ball_to_end1[0]*side_vector1[0] + ball_to_end1[1]*side_vector1[1]
-                dot_product2 = ball_to_end2[0]*side_vector2[0] + ball_to_end2[1]*side_vector2[1]
-                dot_product3 = ball_to_end3[0]*side_vector3[0] + ball_to_end3[1]*side_vector3[1]
-                dot_product4 = ball_to_end4[0]*side_vector4[0] + ball_to_end4[1]*side_vector4[1]
-                side_vector_squared1 = side_vector1[0]**2 + side_vector1[1]**2
-                side_vector_squared2 = side_vector2[0]**2 + side_vector2[1]**2
-                side_vector_squared3 = side_vector3[0]**2 + side_vector3[1]**2
-                side_vector_squared4 = side_vector4[0]**2 + side_vector4[1]**2
-                t1 = max(0, min(dot_product1 / side_vector_squared1, 1))
-                t2 = max(0, min(dot_product2 / side_vector_squared2, 1))
-                t3 = max(0, min(dot_product3 / side_vector_squared3, 1))
-                t4 = max(0, min(dot_product4 / side_vector_squared4, 1))
-                D1 = [self.sides[0][0][0] + t1*side_vector1[0], self.sides[0][0][1] + t1*side_vector1[1]]
-                D2 = [self.sides[1][0][0] + t2*side_vector2[0], self.sides[1][0][1] + t2*side_vector2[1]]
-                D3 = [self.sides[2][0][0] + t3*side_vector3[0], self.sides[2][0][1] + t3*side_vector3[1]]
-                D4 = [self.sides[3][0][0] + t4*side_vector4[0], self.sides[3][0][1] + t4*side_vector4[1]]
-                linelength = dict()
-                linelength["D1"] = pygame.math.Vector2(ball.rect.centerx - D1[0], ball.rect.centery - D1[1]).magnitude()
-                linelength["D2"] = pygame.math.Vector2(ball.rect.centerx - D2[0], ball.rect.centery - D2[1]).magnitude()
-                linelength["D3"] = pygame.math.Vector2(ball.rect.centerx - D3[0], ball.rect.centery - D3[1]).magnitude()
-                linelength["D4"] = pygame.math.Vector2(ball.rect.centerx - D4[0], ball.rect.centery - D4[1]).magnitude()
-                linelength = sorted(linelength.items(),key=lambda x:x[1])
-                if linelength[0][0] == "D1":
-                    color = "green"
-                    pygame.draw.line(screen, color, ball.rect.center, D1, 1)
-                if linelength[0][0] == "D2":
-                    color = "red"
-                    pygame.draw.line(screen, color, ball.rect.center, D2, 1)
-                if linelength[0][0] == "D3":
-                    color = "green"
-                    pygame.draw.line(screen, color, ball.rect.center, D3, 1)
-                if linelength[0][0] == "D4":
-                    color = "red"
-                    pygame.draw.line(screen, color, ball.rect.center, D4, 1)
-                try:
-                    pygame.draw.line(screen,"purple",self.side[0],self.side[1],3)
-                except:
-                    continue'''
-
-
-    def drawlines(self,screen,balls): # draw whatever that helps with debugging, which for now it draws the line from center of ball to closest point on wall
+    # Draw whatever that helps with debugging
+    def drawlines(self,screen,balls): 
+        # Draws the colliding side
         for side in self.sides:
             for ball in balls:
                 side_vector = pygame.math.Vector2(side[1][0]-side[0][0],side[1][1]-side[0][1])
@@ -107,12 +56,14 @@ class Wall(pygame.sprite.Sprite):
             except:
                 continue
 
-    
-    def collision_detection(self,ball):
-        collided_sides = list()
-        for side in self.sides: # loop through all four sides of the wall
-            side_vector = pygame.math.Vector2(side[1][0]-side[0][0],side[1][1]-side[0][1]) # creating vector of side
-            ball_to_end = [ball.rect.centerx-side[0][0], ball.rect.centery-side[0][1]] # distance between center of ball and endpoint of side
+    # Checks for collision and determine the side of collision
+    def collision_detection(self,ball): 
+        # For the ball potentially colliding with 2 walls at once (corner)
+        collided_sides = list() 
+        # Checking for collision with each sides and append all colliding sides to the list collided_sides
+        for side in self.sides:
+            side_vector = pygame.math.Vector2(side[1][0]-side[0][0],side[1][1]-side[0][1])
+            ball_to_end = [ball.rect.centerx-side[0][0], ball.rect.centery-side[0][1]]
             dot_product = ball_to_end[0]*side_vector[0] + ball_to_end[1]*side_vector[1]
             side_vector_squared = side_vector[0]**2 + side_vector[1]**2
             t = max(0, min(dot_product / side_vector_squared, 1))
@@ -120,6 +71,7 @@ class Wall(pygame.sprite.Sprite):
             distance = math.sqrt((ball.rect.centerx-closest[0])**2 + (ball.rect.centery-closest[1])**2) - ball.radius
             if distance <= 0:
                 collided_sides.append([side, distance])
+        # Determine side of collision to use for calculating bouncing
         for side in collided_sides:
             if len(collided_sides) > 1 and collided_sides[0][1] == collided_sides[1][1]:
                 if collided_sides[0][0][0] == collided_sides[1][0][0] or collided_sides[0][0][0] == collided_sides[1][0][1]:

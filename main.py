@@ -67,7 +67,7 @@ while True:
                 sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            for n in range(10):
+            for n in range(1):
                 #ball_group.add(Ball(dis.w, dis.h, (590,385), [-2,-0]))
                 velocity = [randint(-4,4), randint(-4,4)]
                 ball_group.add(Ball(dis.w, dis.h, pygame.mouse.get_pos(), velocity))
@@ -95,6 +95,7 @@ while True:
     ball_group.draw(screen)
     wall_group.draw(screen)
 
+    # Draw things to help with debugging
     for wall in wall_group:
         wall.drawlines(screen, ball_group)
 
